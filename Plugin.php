@@ -59,15 +59,6 @@ class TpCache_Plugin implements Typecho_Plugin_Interface
 	 */
 	public static function deactivate()
 	{
-		try {
-			$uninstall_sql = 'DROP TABLE IF EXISTS `%prefix%cache`';
-			$db = Typecho_Db::get();
-			$prefix = $db->getPrefix();
-			$sql = str_replace('%prefix%', $prefix, $uninstall_sql);
-			$db->query($sql);
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
 	}
 
 	/**
@@ -106,9 +97,7 @@ class TpCache_Plugin implements Typecho_Plugin_Interface
 		$list = array(
 			'0' => '不使用缓存',
 			'memcached' => 'Memcached',
-			'memcache' => 'Memcache',
-			'redis' => 'Redis',
-			'mysql' => 'Mysql'
+			'redis' => 'Redis'
 		);
 		$element = new Typecho_Widget_Helper_Form_Element_Radio('cache_driver', $list, '0', '缓存驱动');
 		$form->addInput($element);
