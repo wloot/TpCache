@@ -19,7 +19,7 @@ class typecho_memcache implements TpCache
 
     static public function getInstance($option)
     {
-        if (is_null(self::$_instance) || isset (self::$_instance)) {
+        if (! isset(self::$_instance)) {
             self::$_instance = new self($option);
         }
         return self::$_instance;
@@ -35,9 +35,9 @@ class typecho_memcache implements TpCache
         }
     }
 
-    public function add($key, $value, $expire = null)
+    public function add($key, $value)
     {
-        return $this->mc->add($key, $value, false, is_null($expire) ? $this->expire : $expire);
+        return $this->mc->add($key, $value, false, $this->expire);
     }
 
     public function delete($key)
@@ -45,9 +45,9 @@ class typecho_memcache implements TpCache
         return $this->mc->delete($key);
     }
 
-    public function set($key, $value, $expire = null)
+    public function set($key, $value)
     {
-        return $this->mc->set($key, $value, false, is_null($expire) ? $this->expire : $expire);
+        return $this->mc->set($key, $value, false, $this->expire);
     }
 
     public function get($key)

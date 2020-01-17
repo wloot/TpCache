@@ -20,7 +20,7 @@ class typecho_mysql implements TpCache
 
     static public function getInstance($option)
     {
-        if (is_null(self::$_instance) || isset (self::$_instance)) {
+        if (! isset(self::$_instance)) {
             self::$_instance = new self($option);
         }
         return self::$_instance;
@@ -67,7 +67,7 @@ CREATE TABLE `%prefix%cache` (
         }
     }
 
-    public function add($key, $value, $expire = null)
+    public function add($key, $value)
     {
         $this->db->query($this->db->insert('table.cache')->rows(array(
                 'key' => $key,
@@ -81,7 +81,7 @@ CREATE TABLE `%prefix%cache` (
         return $this->db->query($this->db->delete('table.cache')->where('key = ?', $key));
     }
 
-    public function set($key, $value, $expire = null)
+    public function set($key, $value)
     {
         $this->delete($key);
         $this->add($key, $value);
